@@ -46,7 +46,8 @@ public class ColaboradorService {
 
 	public List<ColaboradorDTO> findAllDTO() {
 		List<Colaborador> colaboradores = repository.findAll();
-		List<ColaboradorDTO> colaboradoresDto = colaboradores.stream().map(col -> new ColaboradorDTO(col))
+		List<ColaboradorDTO> colaboradoresDto = colaboradores.stream()
+				.map(col -> new ColaboradorDTO(col))
 				.collect(Collectors.toList());
 		return colaboradoresDto;
 	}
@@ -69,13 +70,7 @@ public class ColaboradorService {
 
 	private void verificaSeColaboradorExiste(Integer id) {
 		Optional<Colaborador> colaborador = repository.findById(id);
-
-		colaborador
-				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um colaborador para o ID: " + id));
-
-		colaborador
-				.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um colaborador para o ID: " + id));
-
+		colaborador.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um colaborador para o ID: " + id));
 	}
 
 	private boolean verificaIdadeMaiorDeSessentaECinco(Colaborador colaborador) {
