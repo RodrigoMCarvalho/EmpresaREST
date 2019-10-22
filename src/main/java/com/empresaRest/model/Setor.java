@@ -28,7 +28,6 @@ public class Setor implements Serializable {
 	private String descricao;
 
 	@JsonManagedReference   //irá carregar os colaboradores por esse é o lado Managed
-	@JsonManagedReference   
 	@OneToMany(mappedBy = "setor")
 	private List<Colaborador> colaboradores = new ArrayList<>();
 

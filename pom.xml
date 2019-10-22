@@ -66,11 +66,7 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.7.0</version>
 		</dependency>
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 	</dependencies>
 
 	<build>

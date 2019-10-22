@@ -71,7 +71,7 @@ public class ColaboradorController {
 
 	@DeleteMapping("/colaborador/{id}")
 	@ApiOperation(value = "Remove um novo colaborador")
-	public ResponseEntity<?> remover(@PathVariable Integer id) {
+	public ResponseEntity<String> remover(@PathVariable Integer id) {
 		service.remove(id);
 		return new ResponseEntity<>("Colaborador removido com sucesso!", HttpStatus.OK);
 	}

@@ -34,12 +34,8 @@ public class SetorService {
 	
 	public List<ColaboradorDTO> findSetorById(Integer id) {
 		List<Colaborador> colaboradores = colaboradorRepository.findColaboradoresBySetor(id);
-<<<<<<< HEAD
-		List<ColaboradorDTO> colaboradoresDto = colaboradores.stream().map(col -> new ColaboradorDTO(col))
-=======
 		List<ColaboradorDTO> colaboradoresDto = colaboradores.stream()
 				.map(col -> new ColaboradorDTO(col))
->>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 				.collect(Collectors.toList());
 		return colaboradoresDto;
 	}
