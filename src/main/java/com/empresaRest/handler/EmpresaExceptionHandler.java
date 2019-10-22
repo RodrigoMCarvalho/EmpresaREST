@@ -39,6 +39,7 @@ public class EmpresaExceptionHandler {
 	}
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
+<<<<<<< HEAD
 	  public ResponseEntity<?>  handlerResouceNotFoundException(ResourceNotFoundException e) {
 		ResourceNotFoundDetails rnfDetails = ResourceNotFoundDetails.Builder
 				.newBuilder()
@@ -46,12 +47,26 @@ public class EmpresaExceptionHandler {
 				.title("Recurso não encontrado")
 				.detail(e.getMessage())
 				.developerMessage(e.getClass().getName())
+=======
+	  public ResponseEntity<?> handlerResouceNotFoundException(ResourceNotFoundException e) {
+		ResourceNotFoundDetails rnfDetails = ResourceNotFoundDetails.Builder
+				.newBuilder()
+				.timestamp(LocalDate.now())
+				.title("Recurso não encontrado")	
+				.developerMessage(e.getClass().getName())
+				.status(404)
+				.detail(e.getMessage())
+>>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 				.build();
 		return new ResponseEntity<>(rnfDetails, HttpStatus.NOT_FOUND);
 	  }
 	
 	@ExceptionHandler(MethodArgumentNotValidException.class)
+<<<<<<< HEAD
 	  public ResponseEntity<?>  handlerResouceNotFoundException(MethodArgumentNotValidException e) {
+=======
+	  public ResponseEntity<?> handlerResouceNotFoundException(MethodArgumentNotValidException e) {
+>>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 		
 		List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
 		String fields = fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(","));

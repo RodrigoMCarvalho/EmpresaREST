@@ -22,7 +22,12 @@ public class ColaboradorService {
 
 	public Colaborador save(Colaborador colaborador) {
 		if (colaborador == null) {
+<<<<<<< HEAD
 			throw new HttpMessageNotReadableException("Favor informar os dados do colaborador");
+=======
+			throw new HttpMessageNotReadableException(
+					"Favor informar os dados do colaborador");
+>>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 		}
 		if (verificaIdadeMaiorDeSessentaECinco(colaborador)) {
 			throw new LimitAgeException("O limite de colaboradores acima de 65 anos foi atingido na empresa.");
@@ -70,13 +75,21 @@ public class ColaboradorService {
 
 	private void verificaSeColaboradorExiste(Integer id) {
 		Optional<Colaborador> colaborador = repository.findById(id);
+<<<<<<< HEAD
 			colaborador.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um colaborador para o ID: " + id));
+=======
+		colaborador.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um colaborador para o ID: " + id));
+>>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 	}
 
 	private boolean verificaIdadeMaiorDeSessentaECinco(Colaborador colaborador) {
 		if (colaborador.getIdade() > 65) {
 			List<Colaborador> colaboradores = repository.findAll();
+<<<<<<< HEAD
 			long cont = 1; //igual 1 pois entrou na condicional
+=======
+			long cont = 1;
+>>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 			for (Colaborador col : colaboradores) {
 				if (null != col.getIdade() && col.getIdade() > 65) {
 					cont++;
@@ -101,10 +114,15 @@ public class ColaboradorService {
 					cont++;
 				}
 			}
+<<<<<<< HEAD
 			// Integer maximoPermitido =
 			// (repository.quantidadeColaboradoresBySetor(colaborador.getSetor().getId()) * 20 ) / 100;
 			Integer maximoPermitido = (colaboradoresPorSetor.size() * 20) / 100;
 
+=======
+			// Integer maximoPermitido =(repository.quantidadeColaboradoresBySetor(colaborador.getSetor().getId())* 20 ) / 100;
+			Integer maximoPermitido = (colaboradoresPorSetor.size() * 20) / 100;
+>>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 			if (cont > maximoPermitido) {
 				return true;
 			}
