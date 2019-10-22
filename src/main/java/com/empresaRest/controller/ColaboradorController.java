@@ -36,9 +36,9 @@ public class ColaboradorController {
 
 	@PostMapping("/colaborador")
 	@ApiOperation(value = "Salva um novo colaborador")
-	public ResponseEntity<?> salvar(@Valid @RequestBody Colaborador colaborador) {
+	public ResponseEntity<String> salvar(@Valid @RequestBody Colaborador colaborador) {
 		service.save(colaborador);
-		return new ResponseEntity<>("Colaborador salvo com sucesso!", HttpStatus.OK);
+		return new ResponseEntity<>("Colaborador salvo com sucesso!", HttpStatus.CREATED);
 	}
 
 	@GetMapping("/colaboradores/all")
@@ -51,7 +51,7 @@ public class ColaboradorController {
 	@GetMapping("/colaboradores/todos")
 	@ApiOperation(value = "Retorna todos os colaboradores DTO")
 	public ResponseEntity<List<ColaboradorDTO>> buscaTodosDTO() {
-		List<ColaboradorDTO> colaboradoresDto = service.findAllDTO();
+		List<ColaboradorDTO> colaboradoresDto = service.findAllDTO();		
 		return ResponseEntity.ok().body(colaboradoresDto);
 	}
 
@@ -64,17 +64,18 @@ public class ColaboradorController {
 
 	@PutMapping("/colaborador")
 	@ApiOperation(value = "Atualiza um colaborador")
-	public ResponseEntity<?> atualizar(@Valid @RequestBody Colaborador colaborador) {
+	public ResponseEntity<String> atualizar(@Valid @RequestBody Colaborador colaborador) {
 		service.update(colaborador);
 		return new ResponseEntity<>("Colaborador atualizado com sucesso!", HttpStatus.OK);
 	}
 
 	@DeleteMapping("/colaborador/{id}")
 	@ApiOperation(value = "Remove um novo colaborador")
-	public ResponseEntity<?> remover(@PathVariable Integer id) {
+	public ResponseEntity<String> remover(@PathVariable Integer id) {
 		service.remove(id);
 		return new ResponseEntity<>("Colaborador removido com sucesso!", HttpStatus.OK);
 	}
+
 
 
 

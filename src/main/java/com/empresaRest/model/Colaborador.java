@@ -41,7 +41,7 @@ public class Colaborador  {
 
 	@JoinColumn(name = "setor_id")
 	@ManyToOne
-	@JsonBackReference
+	@JsonBackReference  //não irá carregar os setores, para evitar recursividade infinita
 	private Setor setor;
 	
 	private Integer idade;

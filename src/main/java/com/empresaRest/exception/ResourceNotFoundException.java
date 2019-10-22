@@ -14,16 +14,20 @@ public class ResourceNotFoundException extends RuntimeException {
 	public ResourceNotFoundException (String mensagem) {
 		super(mensagem);
 	}
-	
+
 	@Override
 	public void printStackTrace() {
+
 	}
 
 	@Override
 	public void printStackTrace(PrintStream arg0) {
+
 	}
 
 	@Override
 	public void printStackTrace(PrintWriter arg0) {
+
 	}
+	
 }
