@@ -36,15 +36,9 @@ public class ColaboradorController {
 
 	@PostMapping("/colaborador")
 	@ApiOperation(value = "Salva um novo colaborador")
-<<<<<<< HEAD
 	public ResponseEntity<String> salvar(@Valid @RequestBody Colaborador colaborador) {
 		service.save(colaborador);
 		return new ResponseEntity<>("Colaborador salvo com sucesso!", HttpStatus.CREATED);
-=======
-	public ResponseEntity<?> salvar(@Valid @RequestBody Colaborador colaborador) {
-		service.save(colaborador);
-		return new ResponseEntity<>("Colaborador salvo com sucesso!", HttpStatus.OK);
->>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 	}
 
 	@GetMapping("/colaboradores/all")
@@ -70,30 +64,19 @@ public class ColaboradorController {
 
 	@PutMapping("/colaborador")
 	@ApiOperation(value = "Atualiza um colaborador")
-<<<<<<< HEAD
 	public ResponseEntity<String> atualizar(@Valid @RequestBody Colaborador colaborador) {
-=======
-	public ResponseEntity<?> atualizar(@Valid @RequestBody Colaborador colaborador) {
->>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 		service.update(colaborador);
 		return new ResponseEntity<>("Colaborador atualizado com sucesso!", HttpStatus.OK);
 	}
 
 	@DeleteMapping("/colaborador/{id}")
 	@ApiOperation(value = "Remove um novo colaborador")
-<<<<<<< HEAD
-	public ResponseEntity<String> remover(@PathVariable Integer id) {
-=======
 	public ResponseEntity<?> remover(@PathVariable Integer id) {
->>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 		service.remove(id);
 		return new ResponseEntity<>("Colaborador removido com sucesso!", HttpStatus.OK);
 	}
 
 
 
-<<<<<<< HEAD
 
-=======
->>>>>>> a27c05feaabc438a47836cd4c5400fd6e9258733
 }
