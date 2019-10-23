@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "colaboradores")
-public class Colaborador  {
+public class Colaborador {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +43,7 @@ public class Colaborador  {
 	@ManyToOne
 	@JsonBackReference
 	private Setor setor;
-	
+
 	private Integer idade;
 
 	public Integer getId() {
@@ -102,6 +102,4 @@ public class Colaborador  {
 		this.idade = idade;
 	}
 
-
-	
 }

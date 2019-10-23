@@ -34,6 +34,7 @@ public class EmpresaExceptionHandler {
 				.title("Ocorreu um erro interno. Favor entrar em contato com o administrador")
 				.detail(e.getMessage())
 				.developerMessage(e.getClass().getName())
+				.stackTrace(e.getStackTrace())
 				.build();
 		return new ResponseEntity<>(grDetails, HttpStatus.BAD_REQUEST);
 	}
@@ -47,6 +48,7 @@ public class EmpresaExceptionHandler {
 				.developerMessage(e.getClass().getName())
 				.status(404)
 				.detail(e.getMessage())
+				.stackTrace(e.getStackTrace())
 				.build();
 		return new ResponseEntity<>(rnfDetails, HttpStatus.NOT_FOUND);
 	  }

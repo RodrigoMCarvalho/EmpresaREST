@@ -22,8 +22,7 @@ public class ColaboradorService {
 
 	public Colaborador save(Colaborador colaborador) {
 		if (colaborador == null) {
-			throw new HttpMessageNotReadableException(
-					"Favor informar os dados do colaborador");
+			throw new HttpMessageNotReadableException("Favor informar os dados do colaborador");
 		}
 		if (verificaIdadeMaiorDeSessentaECinco(colaborador)) {
 			throw new LimitAgeException("O limite de colaboradores acima de 65 anos foi atingido na empresa.");
