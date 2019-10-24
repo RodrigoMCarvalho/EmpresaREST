@@ -27,20 +27,13 @@ public class EmpresaExceptionHandler {
 
 	@ExceptionHandler(NullPointerException.class)
 	public ResponseEntity<?> errorNullPointer(NullPointerException e) {
-<<<<<<< HEAD
 		GenericErrorDetails grDetails = GenericErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
-				.title("Ocorreu um erro interno. Favor entrar em contato com o administrador").detail(e.getMessage())
-				.developerMessage(e.getClass().getName()).build();
-=======
-		GenericErrorDetails grDetails = GenericErrorDetails.Builder
-				.newBuilder()
-				.timestamp(LocalDate.now())
 				.title("Ocorreu um erro interno. Favor entrar em contato com o administrador")
+				.timestamp(LocalDate.now())
 				.detail(e.getMessage())
 				.developerMessage(e.getClass().getName())
 				.stackTrace(e.getStackTrace())
 				.build();
->>>>>>> trabalho
 		return new ResponseEntity<>(grDetails, HttpStatus.BAD_REQUEST);
 	}
 
@@ -51,18 +44,19 @@ public class EmpresaExceptionHandler {
 				.timestamp(LocalDate.now())
 				.title("Recurso não encontrado")
 				.detail(e.getMessage())
-<<<<<<< HEAD
 				.developerMessage(e.getClass().getName())
-=======
 				.stackTrace(e.getStackTrace())
->>>>>>> trabalho
 				.build();
 		return new ResponseEntity<>(rnfDetails, HttpStatus.BAD_REQUEST);
 	}
 	public ResponseEntity<?> handlerResouceNotFoundException(ResourceNotFoundException e) {
 		ResourceNotFoundDetails rnfDetails = ResourceNotFoundDetails.Builder.newBuilder().timestamp(LocalDate.now())
-				.title("Recurso não encontrado").developerMessage(e.getClass().getName()).status(404)
-				.detail(e.getMessage()).build();
+				.title("Recurso não encontrado")
+				.developerMessage(e.getClass()
+				.getName())
+				.status(404)
+				.detail(e.getMessage())
+				.build();
 		return new ResponseEntity<>(rnfDetails, HttpStatus.NOT_FOUND);
 	}
 
