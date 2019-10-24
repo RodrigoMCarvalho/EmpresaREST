@@ -11,6 +11,7 @@ public class ResourceNotFoundDetails extends ErrorDetails {
 		private LocalDate timestamp;
 		private String developerMessage;
 		private String message;
+		private StackTraceElement[] stackTrace;
 
 
 		private Builder() {
@@ -49,6 +50,11 @@ public class ResourceNotFoundDetails extends ErrorDetails {
 			this.message = message;
 			return this;
 		}
+		
+		public Builder stackTrace(StackTraceElement[] stackTrace) {
+			this.stackTrace = stackTrace;
+			return this;
+		}
 
 		public ResourceNotFoundDetails build() {
 			ResourceNotFoundDetails resourceNotFoundDetails = new ResourceNotFoundDetails();
@@ -57,7 +63,8 @@ public class ResourceNotFoundDetails extends ErrorDetails {
 			resourceNotFoundDetails.setDetail(detail);
 			resourceNotFoundDetails.setTimestamp(timestamp);
 			resourceNotFoundDetails.setStatus(status);
-			resourceNotFoundDetails.setMessage(message);;
+			resourceNotFoundDetails.setMessage(message);
+			resourceNotFoundDetails.setStackTrace(stackTrace);
 			return resourceNotFoundDetails;
 		}
 
@@ -108,7 +115,20 @@ public class ResourceNotFoundDetails extends ErrorDetails {
 		public void setMessage(String message) {
 			this.message = message;
 		}
+
+		public StackTraceElement[] getStackTrace() {
+			return stackTrace;
+		}
+
+		public void setStackTrace(StackTraceElement[] stackTrace) {
+			this.stackTrace = stackTrace;
+		}
 		
+		
+	}
+
+	public void setStackTrace(StackTraceElement[] stackTrace) {
+		// TODO Auto-generated method stub
 		
 	}
 	

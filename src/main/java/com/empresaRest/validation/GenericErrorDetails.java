@@ -10,6 +10,7 @@ public class GenericErrorDetails extends ErrorDetails {
 		private String detail;
 		private LocalDate timestamp;
 		private String developerMessage;
+		private StackTraceElement[] stackTrace;
 
 		private Builder() {
 		}
@@ -42,6 +43,11 @@ public class GenericErrorDetails extends ErrorDetails {
 			this.developerMessage = developerMessage;
 			return this;
 		}
+		
+		public Builder stackTrace(StackTraceElement[] stackTrace) {
+			this.stackTrace = stackTrace;
+			return this;
+		}
 
 		public GenericErrorDetails build() {
 			GenericErrorDetails genericErrorDetails = new GenericErrorDetails();
@@ -50,7 +56,13 @@ public class GenericErrorDetails extends ErrorDetails {
 			genericErrorDetails.setDetail(detail);
 			genericErrorDetails.setTimestamp(timestamp);
 			genericErrorDetails.setStatus(status);
+			genericErrorDetails.setStackTrace(stackTrace);
 			return genericErrorDetails;
 		}
+	}
+
+	public void setStackTrace(StackTraceElement[] stackTrace) {
+		// TODO Auto-generated method stub
+		
 	}
 }
