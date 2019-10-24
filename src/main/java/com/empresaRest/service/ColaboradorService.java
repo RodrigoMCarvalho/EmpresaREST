@@ -103,9 +103,7 @@ public class ColaboradorService {
 				}
 			}
 
-			// Integer maximoPermitido
-			// =(repository.quantidadeColaboradoresBySetor(colaborador.getSetor().getId())*
-			// 20 ) / 100;
+			// Integer maximoPermitido =(repository.quantidadeColaboradoresBySetor(colaborador.getSetor().getId())* 20 ) / 100;
 			Integer maximoPermitido = (colaboradoresPorSetor.size() * 20) / 100;
 			if (cont > maximoPermitido) {
 				return true;
