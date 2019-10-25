@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.empresaRest.dto.ColaboradorDTO;
 import com.empresaRest.exception.HttpMessageNotReadableException;
@@ -19,7 +20,8 @@ public class ColaboradorService {
 
 	@Autowired
 	private ColaboradorRepository repository;
-
+	
+	@Transactional
 	public Colaborador save(Colaborador colaborador) {
 		if (colaborador == null) {
 			throw new HttpMessageNotReadableException("Favor informar os dados do colaborador");
@@ -52,6 +54,7 @@ public class ColaboradorService {
 		return colaboradoresDto;
 	}
 
+	@Transactional
 	public Colaborador update(Colaborador colaborador) {
 		verificaSeColaboradorExiste(colaborador.getId());
 		if (verificaIdadeMaiorDeSessentaECinco(colaborador)) {
@@ -62,7 +65,8 @@ public class ColaboradorService {
 		}
 		return repository.save(colaborador);
 	}
-
+	
+	@Transactional
 	public void remove(Integer id) {
 		verificaSeColaboradorExiste(id);
 		repository.deleteById(id);
