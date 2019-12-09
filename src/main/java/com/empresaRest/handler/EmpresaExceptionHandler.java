@@ -64,12 +64,25 @@ public class EmpresaExceptionHandler {
 	public ResponseEntity<?> handlerResouceNotFoundException(MethodArgumentNotValidException e) {
 
 		List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
-		String fields = fieldErrors.stream().map(FieldError::getField).collect(Collectors.joining(","));
-		String fieldMessages = fieldErrors.stream().map(FieldError::getDefaultMessage).collect(Collectors.joining(","));
+		String fields = fieldErrors.stream()
+				.map(FieldError::getField)
+				.collect(Collectors.joining(","));
+		
+		String fieldMessages = fieldErrors.stream()
+				.map(FieldError::getDefaultMessage)
+				.collect(Collectors.joining(","));
 
 		ValidationErrorDetails veDetails = ValidationErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
-				.title("Erros de validações.").status(HttpStatus.BAD_REQUEST.value()).detail("Erros de validações.")
-				.developerMessage(e.getClass().getName()).field(fields).fieldMessage(fieldMessages).build();
+				.title("Erros de validações.")
+				.status(HttpStatus.BAD_REQUEST.value())
+				.detail("Erros de validações.")
+				.developerMessage(e.getClass()
+				.getName()).field(fields)
+				.fieldMessage(fieldMessages)
+				.build();
 		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
 	}
+	
+	
+	
 }
