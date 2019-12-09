@@ -81,12 +81,16 @@ public class ColaboradorService {
 		if (colaborador.getIdade() > 65) {
 			List<Colaborador> colaboradores = repository.findAll();
 
-			long cont = 1; // igual 1 pois entrou na condicional
-			for (Colaborador col : colaboradores) {
-				if (null != col.getIdade() && col.getIdade() > 65) {
-					cont++;
-				}
-			}
+//			long cont = 1; // igual 1 pois entrou na condicional
+//			for (Colaborador col : colaboradores) {
+//				if (null != col.getIdade() && col.getIdade() > 65) {
+//					cont++;
+//				}
+//			}
+			long cont = colaboradores.stream()
+				.filter( col -> null != col.getIdade() && col.getIdade() > 65).count();
+			cont += 1;
+			
 			// double maximoPermitido = (repository.totalColaboradores() * 20) /100;
 			Integer maximoPermitido = (colaboradores.size() * 20) / 100;
 			if (cont > maximoPermitido) {
@@ -100,12 +104,17 @@ public class ColaboradorService {
 		if (null != colaborador.getIdade() && colaborador.getIdade() < 18) {
 			List<Colaborador> colaboradoresPorSetor = repository
 					.findColaboradoresBySetor(colaborador.getSetor().getId());
-			long cont = 1;
-			for (Colaborador col : colaboradoresPorSetor) {
-				if (null != col.getIdade() && col.getIdade() < 18) {
-					cont++;
-				}
-			}
+//			long cont = 1;
+//			for (Colaborador col : colaboradoresPorSetor) {
+//				if (null != col.getIdade() && col.getIdade() < 18) {
+//					cont++;
+//				}
+//			}
+			
+			long cont = colaboradoresPorSetor.stream()
+				.filter(col -> null != col.getIdade() && col.getIdade() < 18)
+				.count();
+			cont += 1;
 
 			// Integer maximoPermitido =(repository.quantidadeColaboradoresBySetor(colaborador.getSetor().getId())* 20 ) / 100;
 			Integer maximoPermitido = (colaboradoresPorSetor.size() * 20) / 100;
