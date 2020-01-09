@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,6 +37,7 @@ public class ColaboradorController {
 
 	@PostMapping("/colaborador")
 	@ApiOperation(value = "Salva um novo colaborador")
+	@CrossOrigin
 	public ResponseEntity<String> salvar(@Valid @RequestBody Colaborador colaborador) {
 		service.save(colaborador);
 		return new ResponseEntity<>("Colaborador salvo com sucesso!", HttpStatus.CREATED);
@@ -43,6 +45,7 @@ public class ColaboradorController {
 
 	@GetMapping("/colaboradores/all")
 	@ApiOperation(value = "Retorna todos os colaboradores")
+	@CrossOrigin
 	public ResponseEntity<List<Colaborador>> buscaTodos() {
 		List<Colaborador> colaboradores = service.findAll();
 		return ResponseEntity.ok().body(colaboradores);
@@ -50,6 +53,7 @@ public class ColaboradorController {
 
 	@GetMapping("/colaboradores/todos")
 	@ApiOperation(value = "Retorna todos os colaboradores DTO")
+	@CrossOrigin
 	public ResponseEntity<List<ColaboradorDTO>> buscaTodosDTO() {
 		List<ColaboradorDTO> colaboradoresDto = service.findAllDTO();		
 		return ResponseEntity.ok().body(colaboradoresDto);
@@ -57,6 +61,7 @@ public class ColaboradorController {
 
 	@GetMapping("/colaborador/{id}")
 	@ApiOperation(value = "Retorna um colaborador por ID")
+	@CrossOrigin
 	public ResponseEntity<Optional<Colaborador>> buscaColaboradorPorId(@PathVariable Integer id) {
 		Optional<Colaborador> colaborador = service.findById(id);
 		return ResponseEntity.ok().body(colaborador);
@@ -64,6 +69,7 @@ public class ColaboradorController {
 
 	@PutMapping("/colaborador")
 	@ApiOperation(value = "Atualiza um colaborador")
+	@CrossOrigin
 	public ResponseEntity<String> atualizar(@Valid @RequestBody Colaborador colaborador) {
 		service.update(colaborador);
 		return new ResponseEntity<>("Colaborador atualizado com sucesso!", HttpStatus.OK);
@@ -71,6 +77,7 @@ public class ColaboradorController {
 
 	@DeleteMapping("/colaborador/{id}")
 	@ApiOperation(value = "Remove um novo colaborador")
+	@CrossOrigin
 	public ResponseEntity<String> remover(@PathVariable Integer id) {
 		service.remove(id);
 		return new ResponseEntity<>("Colaborador removido com sucesso!", HttpStatus.OK);

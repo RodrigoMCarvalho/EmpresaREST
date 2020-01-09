@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +25,7 @@ public class SetorController {
 
 	@GetMapping("/setores/todos")
 	@ApiOperation(value = "Busca todos os setores")
+	@CrossOrigin
 	public ResponseEntity<List<Setor>> buscaTodos() {
 		List<Setor> setores = service.findAll();
 		return ResponseEntity.ok().body(setores);
@@ -31,6 +33,7 @@ public class SetorController {
 
 	@GetMapping("/setores/{id}")
 	@ApiOperation(value = "Busca um setor por ID")
+	@CrossOrigin
 	public ResponseEntity<?> buscaSetor(@PathVariable Integer id) {
 		Optional<Setor> setor = service.findBySetor(id);
 		return ResponseEntity.ok().body(setor);
