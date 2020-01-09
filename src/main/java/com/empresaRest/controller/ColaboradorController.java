@@ -9,6 +9,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,6 +59,14 @@ public class ColaboradorController {
 	public ResponseEntity<List<ColaboradorDTO>> buscaTodosDTO() {
 		List<ColaboradorDTO> colaboradoresDto = service.findAllDTO();		
 		return ResponseEntity.ok().body(colaboradoresDto);
+	}
+	
+	@GetMapping("/colaboradores/page")
+	@ApiOperation(value = "Retorna paginação de colaboradores")
+	@CrossOrigin
+	public ResponseEntity<Page<Colaborador>> pageBuscaTodos(Pageable pageable) {
+		Page<Colaborador> pageColaboradores = service.pageFindAll(pageable);
+		return ResponseEntity.ok().body(pageColaboradores);
 	}
 
 	@GetMapping("/colaborador/{id}")

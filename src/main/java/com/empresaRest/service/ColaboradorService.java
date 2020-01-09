@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,6 +46,10 @@ public class ColaboradorService {
 	public List<Colaborador> findAll() {
 		List<Colaborador> colaboradores = repository.findAll();
 		return colaboradores;
+	}
+	
+	public Page<Colaborador> pageFindAll(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	public List<ColaboradorDTO> findAllDTO() {
