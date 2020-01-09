@@ -61,14 +61,15 @@ public class ColaboradorController {
 		return ResponseEntity.ok().body(colaboradoresDto);
 	}
 	
-	@GetMapping("/colaboradores/page")
+	@GetMapping("/colaboradores")
 	@ApiOperation(value = "Retorna paginação de colaboradores")
 	@CrossOrigin
 	public ResponseEntity<Page<Colaborador>> pageBuscaTodos(Pageable pageable) {
 		Page<Colaborador> pageColaboradores = service.pageFindAll(pageable);
 		return ResponseEntity.ok().body(pageColaboradores);
 	}
-
+	
+	//http://localhost:8080/v1/colaboradores?page=0&size=6
 	@GetMapping("/colaborador/{id}")
 	@ApiOperation(value = "Retorna um colaborador por ID")
 	@CrossOrigin
