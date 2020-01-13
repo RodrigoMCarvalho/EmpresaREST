@@ -23,7 +23,7 @@ public class SetorController {
 	@Autowired
 	private SetorService service;
 
-	@GetMapping("/setores/todos")
+	@GetMapping("/setores")
 	@ApiOperation(value = "Busca todos os setores")
 	@CrossOrigin
 	public ResponseEntity<List<Setor>> buscaTodos() {
