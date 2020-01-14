@@ -78,7 +78,15 @@ public class ColaboradorController {
 		Optional<Colaborador> colaborador = service.findById(id);
 		return ResponseEntity.ok().body(colaborador);
 	}
-
+	
+	@GetMapping("/colaboradores/setor/{id}")
+	@ApiOperation(value = "Retorna a lista de colaboradores por setores")
+	@CrossOrigin
+	public ResponseEntity<List<Colaborador>> buscaColaboradoresPorId(@PathVariable Integer id) {
+		List<Colaborador> colaboradoresBySetor = service.findColaboradoresBySetor(id);
+		return ResponseEntity.ok().body(colaboradoresBySetor);
+	}
+ 
 	@PutMapping("/colaborador")
 	@ApiOperation(value = "Atualiza um colaborador")
 	@CrossOrigin

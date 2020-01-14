@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 
@@ -41,8 +42,9 @@ public class Colaborador {
 	private String telefone;
 
 	@JoinColumn(name = "setor_id")
+	@NotNull
 	@ManyToOne
-	@JsonBackReference  //não irá carregar os setores, para evitar recursividade infinita
+	//@JsonManagedReference   //irá carregar os colaboradores por esse é o lado Managed
 	private Setor setor;
 
 	private Integer idade;

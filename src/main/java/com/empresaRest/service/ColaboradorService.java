@@ -59,6 +59,10 @@ public class ColaboradorService {
 				.collect(Collectors.toList());
 		return colaboradoresDto;
 	}
+	
+	public List<Colaborador> findColaboradoresBySetor(Integer id) {
+		return repository.findColaboradoresBySetor(id);
+	}
 
 	@Transactional
 	public Colaborador update(Colaborador colaborador) {
