@@ -41,10 +41,13 @@ public class Colaborador {
 	@NotEmpty(message = "Campo telefone obrigatório")
 	private String telefone;
 
+	
+	/* Removida a anotação @JsonManagedReference, devido ao erro relatado no link abaixo.
+	 * https://stackoverflow.com/questions/49005609/spring-boot-mvc-content-type-application-jsoncharset-utf-8-not-supported*/
+	 //@JsonManagedReference   //irá carregar os colaboradores por esse é o lado Managed
 	@JoinColumn(name = "setor_id")
 	@NotNull
 	@ManyToOne
-	//@JsonManagedReference   //irá carregar os colaboradores por esse é o lado Managed
 	private Setor setor;
 
 	private Integer idade;
