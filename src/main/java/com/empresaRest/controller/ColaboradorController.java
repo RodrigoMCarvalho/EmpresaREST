@@ -41,9 +41,9 @@ public class ColaboradorController {
 	@PostMapping("/colaborador")
 	@ApiOperation(value = "Salva um novo colaborador")
 	@CrossOrigin
-	public ResponseEntity<String> salvar(@Valid @RequestBody Colaborador colaborador) {
-		service.save(colaborador);
-		return new ResponseEntity<>("Colaborador salvo com sucesso!", HttpStatus.CREATED);
+	public ResponseEntity<Colaborador> salvar(@Valid @RequestBody Colaborador colaborador) {
+		Colaborador col = service.save(colaborador);
+		return new ResponseEntity<Colaborador>(col, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/colaboradores/all")
@@ -90,17 +90,17 @@ public class ColaboradorController {
 	@PutMapping("/colaborador")
 	@ApiOperation(value = "Atualiza um colaborador")
 	@CrossOrigin
-	public ResponseEntity<String> atualizar(@Valid @RequestBody Colaborador colaborador) {
-		service.update(colaborador);
-		return new ResponseEntity<>("Colaborador atualizado com sucesso!", HttpStatus.OK);
+	public ResponseEntity<Colaborador> atualizar(@Valid @RequestBody Colaborador colaborador) {
+		Colaborador col = service.update(colaborador);
+		return new ResponseEntity<Colaborador>(col, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/colaborador/{id}")
 	@ApiOperation(value = "Remove um novo colaborador")
 	@CrossOrigin
-	public ResponseEntity<String> remover(@PathVariable Integer id) {
+	public ResponseEntity<Colaborador> remover(@PathVariable Integer id) {
 		service.remove(id);
-		return new ResponseEntity<>("Colaborador removido com sucesso!", HttpStatus.OK);
+		return ResponseEntity.noContent().build();
 	}
 
 

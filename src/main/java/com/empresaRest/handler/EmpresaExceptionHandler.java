@@ -106,7 +106,4 @@ public class EmpresaExceptionHandler {
 				.build();
 		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
 	}
-	
-	
-	
 }
