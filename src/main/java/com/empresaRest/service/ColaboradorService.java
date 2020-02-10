@@ -27,8 +27,8 @@ public class ColaboradorService {
 	@Autowired
 	private SetorRepository setorRepository;
 		
-	private final int SESSENTA_CINCO = 65;
-	private final int DEZOITO = 18;
+	private final int MAXIMA_IDADE_PERMITIDA = 65;
+	private final int MINIMA_IDADE_SETOR = 18;
 	
 	@Transactional
 	public Colaborador save(Colaborador colaborador) {
@@ -88,11 +88,11 @@ public class ColaboradorService {
 	}
 
 	private boolean verificaIdadeMaiorDeSessentaECinco(Colaborador colaborador) {
-		if (colaborador.getIdade() > SESSENTA_CINCO) {
+		if (colaborador.getIdade() > MAXIMA_IDADE_PERMITIDA) {
 			List<Colaborador> colaboradores = repository.findAll();
 
 			long cont = colaboradores.stream()
-				.filter( col -> null != col.getIdade() && col.getIdade() > SESSENTA_CINCO)
+				.filter( col -> null != col.getIdade() && col.getIdade() > MAXIMA_IDADE_PERMITIDA)
 				.count();
 			cont += 1;
 			
@@ -105,12 +105,12 @@ public class ColaboradorService {
 	}
 
 	private boolean verificaIdadeMenorDeDezoito(Colaborador colaborador) {
-		if (null != colaborador.getIdade() && colaborador.getIdade() < DEZOITO) {
+		if (null != colaborador.getIdade() && colaborador.getIdade() < MINIMA_IDADE_SETOR) {
 			List<Colaborador> colaboradoresPorSetor = repository
 					.findColaboradoresBySetor(colaborador.getSetor().getId());
 
 			long cont = colaboradoresPorSetor.stream()
-				.filter(col -> null != col.getIdade() && col.getIdade() < DEZOITO)
+				.filter(col -> null != col.getIdade() && col.getIdade() < MINIMA_IDADE_SETOR)
 				.count();
 			cont += 1;
 
