@@ -23,7 +23,7 @@ public class SetorService {
 	private ColaboradorRepository colaboradorRepository;
 	
 	public List<Setor> findAll() {
-		return repository.findAll();
+		return repository.findAll() ;
 	}
 	
 	public Optional<Setor> findBySetor(Integer id) {
