@@ -44,15 +44,13 @@ public class ColaboradorService {
 		return repository.save(colaborador);
 	}
 
-	public Optional<Colaborador> findById(Integer id) {
-		verificaSeColaboradorExiste(id);
+	public Colaborador findById(Integer id) {
 		Optional<Colaborador> colaborador = repository.findById(id);
-		return colaborador;
+		return colaborador.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um colaborador para o ID: " + id));
 	}
 
 	public List<Colaborador> findAll() {
-		List<Colaborador> colaboradores = repository.findAll();
-		return colaboradores;
+		return repository.findAll();
 	}
 	
 	public Page<Colaborador> pageFindAll(Pageable pageable) {
@@ -78,13 +76,8 @@ public class ColaboradorService {
 	
 	@Transactional
 	public void remove(Integer id) {
-		verificaSeColaboradorExiste(id);
+		findById(id);
 		repository.deleteById(id);
-	}
-
-	private void verificaSeColaboradorExiste(Integer id) {
-		Optional<Colaborador> colaborador = repository.findById(id);
-		colaborador.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um colaborador para o ID: " + id));
 	}
 
 	private boolean verificaIdadeMaiorDeSessentaECinco(Colaborador colaborador) {

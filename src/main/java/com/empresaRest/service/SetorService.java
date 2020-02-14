@@ -23,13 +23,11 @@ public class SetorService {
 	private ColaboradorRepository colaboradorRepository;
 	
 	public List<Setor> findAll() {
-		List<Setor> setores = repository.findAll();
-		return setores;
+		return repository.findAll();
 	}
 	
 	public Optional<Setor> findBySetor(Integer id) {
-		Optional<Setor> setor = repository.findById(id);
-		return setor;
+		return repository.findById(id);
 	}
 	
 	public List<ColaboradorDTO> findSetorById(Integer id) {

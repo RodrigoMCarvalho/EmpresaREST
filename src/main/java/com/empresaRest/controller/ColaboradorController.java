@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -73,8 +72,8 @@ public class ColaboradorController {
 	@GetMapping("/colaborador/{id}")
 	@ApiOperation(value = "Retorna um colaborador por ID")
 	@CrossOrigin
-	public ResponseEntity<Optional<Colaborador>> buscaColaboradorPorId(@PathVariable Integer id) {
-		Optional<Colaborador> colaborador = service.findById(id);
+	public ResponseEntity<Colaborador> buscaColaboradorPorId(@PathVariable Integer id) {
+		Colaborador colaborador = service.findById(id);
 		return ResponseEntity.ok().body(colaborador);
 	}
 	
