@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.empresaRest.exception.LimitAgeException;
 import com.empresaRest.exception.ResourceNotFoundException;
 import com.empresaRest.validation.GenericErrorDetails;
 import com.empresaRest.validation.ResourceNotFoundDetails;
@@ -21,10 +22,33 @@ import com.empresaRest.validation.ValidationErrorDetails;
 public class EmpresaExceptionHandler {
 
 	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<?> errorCPFDuplicado() {
-		return new ResponseEntity<>("CPF informado já está cadastrado na empresa.", HttpStatus.BAD_REQUEST);
+	public ResponseEntity<?> errorCPFDuplicado(ConstraintViolationException e) {
+		String fieldErrors = "CPF informado já está cadastrado na empresa.";
+		ValidationErrorDetails veDetails = ValidationErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
+				.title("Erros de validações.")
+				.status(HttpStatus.BAD_REQUEST.value())
+				.detail("Erros de validações.")
+				.developerMessage(e.getClass()
+				.getName()).field(fieldErrors)
+				.fieldMessage(fieldErrors)
+				.build();
+		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
 	}
-
+	
+	@ExceptionHandler(LimitAgeException.class)
+	public ResponseEntity<?> LimitAge(LimitAgeException e) {
+		String fieldErrors = "Lmite de idade para o setor ultrapassada.";
+		ValidationErrorDetails veDetails = ValidationErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
+				.title("Erros de validações.")
+				.status(HttpStatus.BAD_REQUEST.value())
+				.detail("Erros de validações.")
+				.developerMessage(e.getClass()
+				.getName()).field(fieldErrors)
+				.fieldMessage(fieldErrors)
+				.build();
+		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
+	}
+	
 	@ExceptionHandler(NullPointerException.class)
 	public ResponseEntity<?> errorNullPointer(NullPointerException e) {
 		GenericErrorDetails grDetails = GenericErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
@@ -82,7 +106,4 @@ public class EmpresaExceptionHandler {
 				.build();
 		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
 	}
-	
-	
-	
 }

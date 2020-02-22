@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.empresaRest.model.Colaborador;
+import com.empresaRest.model.Setor;
 
 @Repository
 public interface ColaboradorRepository extends JpaRepository<Colaborador, Integer>{

@@ -4,11 +4,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +39,9 @@ public class ColaboradorController {
 	@PostMapping("/colaborador")
 	@ApiOperation(value = "Salva um novo colaborador")
 	@CrossOrigin
-	public ResponseEntity<String> salvar(@Valid @RequestBody Colaborador colaborador) {
-		service.save(colaborador);
-		return new ResponseEntity<>("Colaborador salvo com sucesso!", HttpStatus.CREATED);
+	public ResponseEntity<Colaborador> salvar(@Valid @RequestBody Colaborador colaborador) {
+		Colaborador col = service.save(colaborador);
+		return new ResponseEntity<Colaborador>(col, HttpStatus.CREATED);
 	}
 
 	@GetMapping("/colaboradores/all")
@@ -58,29 +59,46 @@ public class ColaboradorController {
 		List<ColaboradorDTO> colaboradoresDto = service.findAllDTO();		
 		return ResponseEntity.ok().body(colaboradoresDto);
 	}
-
+	
+	@GetMapping("/colaboradores")
+	@ApiOperation(value = "Retorna paginação de colaboradores")
+	@CrossOrigin
+	public ResponseEntity<Page<Colaborador>> pageBuscaTodos(Pageable pageable) {
+		Page<Colaborador> pageColaboradores = service.pageFindAll(pageable);
+		return ResponseEntity.ok().body(pageColaboradores);
+	}
+	
+	//http://localhost:8080/v1/colaboradores?page=0&size=6
 	@GetMapping("/colaborador/{id}")
 	@ApiOperation(value = "Retorna um colaborador por ID")
 	@CrossOrigin
-	public ResponseEntity<Optional<Colaborador>> buscaColaboradorPorId(@PathVariable Integer id) {
-		Optional<Colaborador> colaborador = service.findById(id);
+	public ResponseEntity<Colaborador> buscaColaboradorPorId(@PathVariable Integer id) {
+		Colaborador colaborador = service.findById(id);
 		return ResponseEntity.ok().body(colaborador);
 	}
-
+	
+	@GetMapping("/colaboradores/setor/{id}")
+	@ApiOperation(value = "Retorna a lista de colaboradores por setores")
+	@CrossOrigin
+	public ResponseEntity<List<Colaborador>> buscaColaboradoresPorId(@PathVariable Integer id) {
+		List<Colaborador> colaboradoresBySetor = service.findColaboradoresBySetor(id);
+		return ResponseEntity.ok().body(colaboradoresBySetor);
+	}
+ 
 	@PutMapping("/colaborador")
 	@ApiOperation(value = "Atualiza um colaborador")
 	@CrossOrigin
-	public ResponseEntity<String> atualizar(@Valid @RequestBody Colaborador colaborador) {
-		service.update(colaborador);
-		return new ResponseEntity<>("Colaborador atualizado com sucesso!", HttpStatus.OK);
+	public ResponseEntity<Colaborador> atualizar(@Valid @RequestBody Colaborador colaborador) {
+		Colaborador col = service.update(colaborador);
+		return new ResponseEntity<Colaborador>(col, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/colaborador/{id}")
 	@ApiOperation(value = "Remove um novo colaborador")
 	@CrossOrigin
-	public ResponseEntity<String> remover(@PathVariable Integer id) {
+	public ResponseEntity<Colaborador> remover(@PathVariable Integer id) {
 		service.remove(id);
-		return new ResponseEntity<>("Colaborador removido com sucesso!", HttpStatus.OK);
+		return ResponseEntity.noContent().build();
 	}
 
 

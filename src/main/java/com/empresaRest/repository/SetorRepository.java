@@ -8,5 +8,4 @@ import com.empresaRest.model.Setor;
 @Repository
 public interface SetorRepository extends JpaRepository<Setor, Integer> {
 
-	
 }

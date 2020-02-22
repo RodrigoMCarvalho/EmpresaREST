@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -27,7 +28,8 @@ public class Setor implements Serializable {
 	@NotEmpty(message = "Campo descrição obrigatória")
 	private String descricao;
 
-	@JsonManagedReference   //irá carregar os colaboradores por esse é o lado Managed
+	
+	@JsonBackReference  //não irá carregar os setores, para evitar recursividade infinita
 	@OneToMany(mappedBy = "setor")
 	private List<Colaborador> colaboradores = new ArrayList<>();
 

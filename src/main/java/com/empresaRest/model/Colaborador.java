@@ -1,5 +1,7 @@
 package com.empresaRest.model;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,14 +13,16 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "colaboradores")
-public class Colaborador {
+public class Colaborador implements Serializable{
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,12 +43,21 @@ public class Colaborador {
 	@NotEmpty(message = "Campo telefone obrigatório")
 	private String telefone;
 
+	
+	/* Removida a anotação @JsonManagedReference, devido ao erro relatado no link abaixo.
+	 * https://stackoverflow.com/questions/49005609/spring-boot-mvc-content-type-application-jsoncharset-utf-8-not-supported*/
+	 //@JsonManagedReference   //irá carregar os colaboradores por esse é o lado Managed
 	@JoinColumn(name = "setor_id")
+	@NotNull
 	@ManyToOne
-	@JsonBackReference  //não irá carregar os setores, para evitar recursividade infinita
 	private Setor setor;
 
 	private Integer idade;
+	
+	
+
+	public Colaborador() {
+	}
 
 	public Integer getId() {
 		return id;
