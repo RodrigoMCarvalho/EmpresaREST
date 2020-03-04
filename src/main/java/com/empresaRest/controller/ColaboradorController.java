@@ -44,7 +44,7 @@ public class ColaboradorController {
 		return new ResponseEntity<Colaborador>(col, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/colaboradores/all")
+	@GetMapping("/colaboradores")
 	@ApiOperation(value = "Retorna todos os colaboradores")
 	@CrossOrigin
 	public ResponseEntity<List<Colaborador>> buscaTodos() {
@@ -52,7 +52,7 @@ public class ColaboradorController {
 		return ResponseEntity.ok().body(colaboradores);
 	}
 
-	@GetMapping("/colaboradores/todos")
+	@GetMapping("/colaboradores/todosDto")
 	@ApiOperation(value = "Retorna todos os colaboradores DTO")
 	@CrossOrigin
 	public ResponseEntity<List<ColaboradorDTO>> buscaTodosDTO() {
@@ -60,7 +60,8 @@ public class ColaboradorController {
 		return ResponseEntity.ok().body(colaboradoresDto);
 	}
 	
-	@GetMapping("/colaboradores")
+	//http://localhost:8080/v1/colaboradores?page=0&size=6
+	@GetMapping("/colaboradores/page")
 	@ApiOperation(value = "Retorna paginação de colaboradores")
 	@CrossOrigin
 	public ResponseEntity<Page<Colaborador>> pageBuscaTodos(Pageable pageable) {
@@ -68,7 +69,6 @@ public class ColaboradorController {
 		return ResponseEntity.ok().body(pageColaboradores);
 	}
 	
-	//http://localhost:8080/v1/colaboradores?page=0&size=6
 	@GetMapping("/colaborador/{id}")
 	@ApiOperation(value = "Retorna um colaborador por ID")
 	@CrossOrigin
