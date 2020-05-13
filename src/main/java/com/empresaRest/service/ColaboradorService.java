@@ -1,5 +1,6 @@
 package com.empresaRest.service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -12,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.empresaRest.dto.ColaboradorDTO;
 import com.empresaRest.exception.HttpMessageNotReadableException;
-import com.empresaRest.exception.ResourceNotFoundException;
 import com.empresaRest.exception.LimitAgeException;
+import com.empresaRest.exception.ResourceNotFoundException;
 import com.empresaRest.model.Colaborador;
 import com.empresaRest.repository.ColaboradorRepository;
 import com.empresaRest.repository.SetorRepository;
@@ -29,6 +30,8 @@ public class ColaboradorService {
 		
 	private final int MAXIMA_IDADE_PERMITIDA = 65;
 	private final int MINIMA_IDADE_SETOR = 18;
+	private final int CEM_PORCENTO = 100;
+	private final int VINTE_PORCENTO = 20;
 	
 	@Transactional
 	public Colaborador save(Colaborador colaborador) {
@@ -89,7 +92,7 @@ public class ColaboradorService {
 				.count();
 			cont += 1;
 			
-			Integer maximoPermitido = (colaboradores.size() * 20) / 100;
+			int maximoPermitido = (colaboradores.size() * VINTE_PORCENTO) / CEM_PORCENTO;
 			if (cont > maximoPermitido) {
 				return true;
 			}
