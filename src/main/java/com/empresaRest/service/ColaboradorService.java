@@ -110,7 +110,7 @@ public class ColaboradorService {
 				.count();
 			cont += 1;
 
-			Integer maximoPermitido = (colaboradoresPorSetor.size() * 20) / 100;
+			Integer maximoPermitido = (colaboradoresPorSetor.size() * VINTE_PORCENTO) / CEM_PORCENTO;
 			if (cont > maximoPermitido) {
 				return true;
 			}
