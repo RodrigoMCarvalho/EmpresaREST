@@ -20,8 +20,12 @@ import com.empresaRest.service.SetorService;
 @RequestMapping("/v1")
 public class SetorController {
 
-	@Autowired
 	private SetorService service;
+
+	@Autowired
+	public SetorController(SetorService service) {
+		this.service = service;
+	}
 
 	@GetMapping("/setores")
 	@ApiOperation(value = "Busca todos os setores")
@@ -35,7 +39,7 @@ public class SetorController {
 	@ApiOperation(value = "Busca um setor por ID")
 	@CrossOrigin
 	public ResponseEntity<?> buscaSetor(@PathVariable Integer id) {
-		Optional<Setor> setor = service.findBySetor(id);
+		Setor setor = service.findBySetor(id);
 		return ResponseEntity.ok().body(setor);
 	}
 

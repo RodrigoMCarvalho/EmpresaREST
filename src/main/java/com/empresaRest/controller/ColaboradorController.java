@@ -3,6 +3,7 @@ package com.empresaRest.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -26,22 +27,28 @@ import org.springframework.web.bind.annotation.RestController;
 import com.empresaRest.dto.ColaboradorDTO;
 import com.empresaRest.model.Colaborador;
 import com.empresaRest.service.ColaboradorService;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/v1")
 @Api(value = "API REST Empresa")
 @ExposesResourceFor(Colaborador.class)
 public class ColaboradorController {
-	
-	@Autowired
+
 	private ColaboradorService service;
+
+	@Autowired
+	public ColaboradorController(ColaboradorService service) {
+		this.service = service;
+	}
 
 	@PostMapping("/colaborador")
 	@ApiOperation(value = "Salva um novo colaborador")
 	@CrossOrigin
-	public ResponseEntity<Colaborador> salvar(@Valid @RequestBody Colaborador colaborador) {
+	public ResponseEntity<Colaborador> salvar(@RequestBody @Valid Colaborador colaborador, UriComponentsBuilder uriBuilder) {
 		Colaborador col = service.save(colaborador);
-		return new ResponseEntity<Colaborador>(col, HttpStatus.CREATED);
+		URI uri = uriBuilder.path("/colaborador/{id}").buildAndExpand(col.getId()).toUri();
+		return ResponseEntity.created(uri).body(col);
 	}
 
 	@GetMapping("/colaboradores")
@@ -78,7 +85,7 @@ public class ColaboradorController {
 	}
 	
 	@GetMapping("/colaboradores/setor/{id}")
-	@ApiOperation(value = "Retorna a lista de colaboradores por setores")
+	@ApiOperation(value = "Retorna a lista de colaboradores por setor")
 	@CrossOrigin
 	public ResponseEntity<List<Colaborador>> buscaColaboradoresPorId(@PathVariable Integer id) {
 		List<Colaborador> colaboradoresBySetor = service.findColaboradoresBySetor(id);
@@ -90,11 +97,11 @@ public class ColaboradorController {
 	@CrossOrigin
 	public ResponseEntity<Colaborador> atualizar(@Valid @RequestBody Colaborador colaborador) {
 		Colaborador col = service.update(colaborador);
-		return new ResponseEntity<Colaborador>(col, HttpStatus.OK);
+		return ResponseEntity.ok().body(col);
 	}
 
 	@DeleteMapping("/colaborador/{id}")
-	@ApiOperation(value = "Remove um novo colaborador")
+	@ApiOperation(value = "Remove um colaborador")
 	@CrossOrigin
 	public ResponseEntity<Colaborador> remover(@PathVariable Integer id) {
 		service.remove(id);

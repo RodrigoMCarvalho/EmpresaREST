@@ -22,12 +22,15 @@ import com.empresaRest.repository.SetorRepository;
 @Service
 public class ColaboradorService {
 
-	@Autowired
 	private ColaboradorRepository repository;
-	
-	@Autowired
 	private SetorRepository setorRepository;
-		
+
+	@Autowired
+	public ColaboradorService(ColaboradorRepository repository, SetorRepository setorRepository) {
+		this.repository = repository;
+		this.setorRepository = setorRepository;
+	}
+
 	private final int MAXIMA_IDADE_PERMITIDA = 65;
 	private final int MINIMA_IDADE_SETOR = 18;
 	private final int CEM_PORCENTO = 100;
@@ -63,7 +66,7 @@ public class ColaboradorService {
 	public List<ColaboradorDTO> findAllDTO() {
 		List<Colaborador> colaboradores = repository.findAll();
 		List<ColaboradorDTO> colaboradoresDto = colaboradores.stream()
-				.map(col -> new ColaboradorDTO(col))
+				.map(ColaboradorDTO::new)
 				.collect(Collectors.toList());
 		return colaboradoresDto;
 	}

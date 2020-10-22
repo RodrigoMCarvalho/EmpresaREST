@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 
 @Entity
-@Table(name = "colaboradores")
+@Table(name = "COLABORADOR")
 public class Colaborador implements Serializable{
 
 	private static final long serialVersionUID = 1L;

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-@Table(name = "setores")
+@Table(name = "SETOR")
 public class Setor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
