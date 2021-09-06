@@ -15,11 +15,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import lombok.Builder;
 import org.hibernate.validator.constraints.br.CPF;
 
 
 @Entity
 @Table(name = "COLABORADOR")
+@Builder
 public class Colaborador implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -53,10 +55,19 @@ public class Colaborador implements Serializable{
 	private Setor setor;
 
 	private Integer idade;
-	
-	
+
 
 	public Colaborador() {
+	}
+
+	public Colaborador(Integer id, String nome, String cpf, String email, String telefone, Setor setor, Integer idade) {
+		this.id = id;
+		this.nome = nome;
+		this.cpf = cpf;
+		this.email = email;
+		this.telefone = telefone;
+		this.setor = setor;
+		this.idade = idade;
 	}
 
 	public Integer getId() {

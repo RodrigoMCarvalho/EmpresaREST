@@ -1,7 +1,9 @@
 package com.empresaRest.dto;
 
 import com.empresaRest.model.Colaborador;
+import lombok.Builder;
 
+@Builder
 public class ColaboradorDTO {
 	
 	private String nome;
@@ -13,9 +15,14 @@ public class ColaboradorDTO {
 		this.email = colaborador.getEmail();
 	}
 
-	public ColaboradorDTO() {
-		super();
+	public ColaboradorDTO(String nome, String email) {
+		this.nome = nome;
+		this.email = email;
 	}
+
+	public ColaboradorDTO() {
+	}
+
 
 	public String getNome() {
 		return nome;

@@ -14,9 +14,11 @@ import javax.validation.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.Builder;
 
 @Entity
 @Table(name = "SETOR")
+@Builder
 public class Setor implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -28,10 +30,18 @@ public class Setor implements Serializable {
 	@NotEmpty(message = "Campo descrição obrigatória")
 	private String descricao;
 
-	
 	@JsonBackReference  //não irá carregar os setores, para evitar recursividade infinita
 	@OneToMany(mappedBy = "setor")
 	private List<Colaborador> colaboradores = new ArrayList<>();
+
+	public Setor() {
+	}
+
+	public Setor(Integer id, String descricao, List<Colaborador> colaboradores) {
+		this.id = id;
+		this.descricao = descricao;
+		this.colaboradores = colaboradores;
+	}
 
 	public Integer getId() {
 		return id;

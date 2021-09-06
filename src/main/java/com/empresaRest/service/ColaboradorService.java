@@ -22,6 +22,11 @@ import com.empresaRest.repository.SetorRepository;
 @Service
 public class ColaboradorService {
 
+	private final int MAXIMA_IDADE_PERMITIDA = 65;
+	private final int MINIMA_IDADE_SETOR = 18;
+	private final int CEM_PORCENTO = 100;
+	private final int VINTE_PORCENTO = 20;
+
 	private ColaboradorRepository repository;
 	private SetorRepository setorRepository;
 
@@ -31,11 +36,6 @@ public class ColaboradorService {
 		this.setorRepository = setorRepository;
 	}
 
-	private final int MAXIMA_IDADE_PERMITIDA = 65;
-	private final int MINIMA_IDADE_SETOR = 18;
-	private final int CEM_PORCENTO = 100;
-	private final int VINTE_PORCENTO = 20;
-	
 	@Transactional
 	public Colaborador save(Colaborador colaborador) {
 		if (colaborador == null) {
