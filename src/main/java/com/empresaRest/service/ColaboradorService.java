@@ -1,6 +1,5 @@
 package com.empresaRest.service;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,12 +26,12 @@ public class ColaboradorService {
 	private final int CEM_PORCENTO = 100;
 	private final int VINTE_PORCENTO = 20;
 
-	private ColaboradorRepository repository;
+	private ColaboradorRepository colaboradorRepository;
 	private SetorRepository setorRepository;
 
 	@Autowired
-	public ColaboradorService(ColaboradorRepository repository, SetorRepository setorRepository) {
-		this.repository = repository;
+	public ColaboradorService(ColaboradorRepository colaboradorRepository, SetorRepository setorRepository) {
+		this.colaboradorRepository = colaboradorRepository;
 		this.setorRepository = setorRepository;
 	}
 
@@ -47,24 +46,24 @@ public class ColaboradorService {
 		if (verificaIdadeMenorDeDezoito(colaborador)) {
 			throw new LimitAgeException("O limite de colaboradores abaixo de 18 anos foi atingido no setor.");
 		}
-		return repository.save(colaborador);
+		return colaboradorRepository.save(colaborador);
 	}
 
 	public Colaborador findById(Integer id) {
-		Optional<Colaborador> colaborador = repository.findById(id);
+		Optional<Colaborador> colaborador = colaboradorRepository.findById(id);
 		return colaborador.orElseThrow(() -> new ResourceNotFoundException("Não foi encontrado um colaborador para o ID: " + id));
 	}
 
 	public List<Colaborador> findAll() {
-		return repository.findAll();
+		return colaboradorRepository.findAll();
 	}
 	
 	public Page<Colaborador> pageFindAll(Pageable pageable) {
-		return repository.findAll(pageable);
+		return colaboradorRepository.findAll(pageable);
 	}
 
 	public List<ColaboradorDTO> findAllDTO() {
-		List<Colaborador> colaboradores = repository.findAll();
+		List<Colaborador> colaboradores = colaboradorRepository.findAll();
 		List<ColaboradorDTO> colaboradoresDto = colaboradores.stream()
 				.map(ColaboradorDTO::new)
 				.collect(Collectors.toList());
@@ -72,23 +71,23 @@ public class ColaboradorService {
 	}
 	
 	public List<Colaborador> findColaboradoresBySetor(Integer id) {
-		return repository.findColaboradoresBySetor(id);
+		return colaboradorRepository.findColaboradoresBySetor(id);
 	}
 
 	@Transactional
 	public Colaborador update(Colaborador colaborador) {
-		return repository.save(colaborador);
+		return colaboradorRepository.save(colaborador);
 	}
 	
 	@Transactional
 	public void remove(Integer id) {
 		findById(id);
-		repository.deleteById(id);
+		colaboradorRepository.deleteById(id);
 	}
 
 	private boolean verificaIdadeMaiorDeSessentaECinco(Colaborador colaborador) {
 		if (colaborador.getIdade() > MAXIMA_IDADE_PERMITIDA) {
-			List<Colaborador> colaboradores = repository.findAll();
+			List<Colaborador> colaboradores = colaboradorRepository.findAll();
 
 			long cont = colaboradores.stream()
 				.filter( col -> null != col.getIdade() && col.getIdade() > MAXIMA_IDADE_PERMITIDA)
@@ -105,7 +104,7 @@ public class ColaboradorService {
 
 	private boolean verificaIdadeMenorDeDezoito(Colaborador colaborador) {
 		if (null != colaborador.getIdade() && colaborador.getIdade() < MINIMA_IDADE_SETOR) {
-			List<Colaborador> colaboradoresPorSetor = repository
+			List<Colaborador> colaboradoresPorSetor = colaboradorRepository
 					.findColaboradoresBySetor(colaborador.getSetor().getId());
 
 			long cont = colaboradoresPorSetor.stream()

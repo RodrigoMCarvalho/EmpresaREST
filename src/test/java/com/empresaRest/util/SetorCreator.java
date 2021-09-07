@@ -5,6 +5,6 @@ import com.empresaRest.model.Setor;
 public class SetorCreator {
 
     public static Setor createSetor() {
-        return Setor.builder().descricao("Setor 1").build();
+        return Setor.builder().id(1).descricao("Setor 1").build();
     }
 }

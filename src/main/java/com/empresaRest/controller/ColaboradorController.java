@@ -38,7 +38,7 @@ public class ColaboradorController {
 	@ApiResponse(responseCode = "201", description = "Operação realizada com sucesso.")
 	public ResponseEntity<Colaborador> salvar(@RequestBody @Valid Colaborador colaborador) {
 		Colaborador col = colaboradorService.save(colaborador);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/colaborador/{id}")
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
 				.buildAndExpand(col.getId())
 				.toUri();
 		return ResponseEntity.created(uri).body(col);
@@ -106,7 +106,7 @@ public class ColaboradorController {
 	@Operation(summary = "Remove um colaborador")
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "204", description = "Operação realizada com sucesso."),
-			@ApiResponse(responseCode = "404", description = "Não foi encontrado um colaborador para o ID:.")
+			@ApiResponse(responseCode = "404", description = "Não foi encontrado um colaborador para o ID: ")
 	})
 	@CrossOrigin
 	public ResponseEntity<Colaborador> remover(@PathVariable Integer id) {
