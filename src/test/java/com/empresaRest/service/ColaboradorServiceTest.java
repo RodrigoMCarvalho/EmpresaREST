@@ -4,7 +4,6 @@ import com.empresaRest.model.Colaborador;
 import com.empresaRest.repository.ColaboradorRepository;
 import com.empresaRest.repository.SetorRepository;
 import com.empresaRest.util.ColaboradorCreator;
-import org.assertj.core.api.Assertions;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
@@ -49,8 +49,8 @@ public class ColaboradorServiceTest{
 
         Colaborador colaboradorSalvo = colaboradorService.save(colaborador);
 
-        Assertions.assertThat(colaboradorSalvo.getId()).isNotNull();
-        Assertions.assertThat(colaboradorSalvo.getNome()).isEqualTo(colaborador.getNome());
+        assertThat(colaboradorSalvo.getId()).isNotNull();
+        assertThat(colaboradorSalvo.getNome()).isEqualTo(colaborador.getNome());
     }
 
     @Test
@@ -58,8 +58,8 @@ public class ColaboradorServiceTest{
         Colaborador colaborador = ColaboradorCreator.createColaboradorValid();
         Colaborador colaboradorSalvo = colaboradorService.save(colaborador);
 
-        Assertions.assertThat(colaboradorSalvo.getId()).isNotNull();
-        Assertions.assertThat(colaboradorSalvo.getNome()).isEqualTo(colaborador.getNome());
+        assertThat(colaboradorSalvo.getId()).isNotNull();
+        assertThat(colaboradorSalvo.getNome()).isEqualTo(colaborador.getNome());
     }
 
     @Test
@@ -68,8 +68,8 @@ public class ColaboradorServiceTest{
 
         Colaborador colaboradorSalvo = colaboradorService.findById(idEsperado);
 
-        Assertions.assertThat(colaboradorSalvo).isNotNull();
-        Assertions.assertThat(colaboradorSalvo.getId()).isEqualTo(idEsperado);
+        assertThat(colaboradorSalvo).isNotNull();
+        assertThat(colaboradorSalvo.getId()).isEqualTo(idEsperado);
     }
 
 }

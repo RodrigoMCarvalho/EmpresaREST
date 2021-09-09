@@ -64,10 +64,9 @@ public class ColaboradorService {
 
 	public List<ColaboradorDTO> findAllDTO() {
 		List<Colaborador> colaboradores = colaboradorRepository.findAll();
-		List<ColaboradorDTO> colaboradoresDto = colaboradores.stream()
+		return colaboradores.stream()
 				.map(ColaboradorDTO::new)
 				.collect(Collectors.toList());
-		return colaboradoresDto;
 	}
 	
 	public List<Colaborador> findColaboradoresBySetor(Integer id) {

@@ -14,6 +14,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @DataJpaTest
 @RunWith(SpringRunner.class)
 @TestPropertySource(locations ="classpath:/application-test.properties")
@@ -32,9 +34,9 @@ public class ColaboradorRepositoryTest {
         colaborador.setSetor(setor);
         Colaborador colaboradorSalvo = colaboradorRepository.save(colaborador);
 
-        Assertions.assertThat(colaboradorSalvo).isNotNull();
-        Assertions.assertThat(colaboradorSalvo.getId()).isNotNull();
-        Assertions.assertThat(colaboradorSalvo.getNome()).isNotNull();
+        assertThat(colaboradorSalvo).isNotNull();
+        assertThat(colaboradorSalvo.getId()).isNotNull();
+        assertThat(colaboradorSalvo.getNome()).isNotNull();
     }
 
     @Test
@@ -46,7 +48,7 @@ public class ColaboradorRepositoryTest {
         colaboradorRepository.delete(colaboradorSalvo);
         Optional<Colaborador> colaboradorOptional = colaboradorRepository.findById(colaboradorSalvo.getId());
 
-        Assertions.assertThat(colaboradorOptional).isEmpty();
+        assertThat(colaboradorOptional).isEmpty();
     }
 
 
@@ -58,7 +60,7 @@ public class ColaboradorRepositoryTest {
         colaboradorRepository.save(colaborador);
         Colaborador colaboradorByCpf = colaboradorRepository.findByCpf("692.342.920-06");
 
-        Assertions.assertThat(colaboradorByCpf.getId()).isEqualTo(colaborador.getId());
+        assertThat(colaboradorByCpf.getId()).isEqualTo(colaborador.getId());
     }
 
     @Test
@@ -70,7 +72,7 @@ public class ColaboradorRepositoryTest {
 
         Integer totalColaboradores = colaboradorRepository.totalColaboradores();
 
-        Assertions.assertThat(totalColaboradores).isEqualTo(1);
+        assertThat(totalColaboradores).isEqualTo(1);
     }
 
     @Test
@@ -82,7 +84,7 @@ public class ColaboradorRepositoryTest {
 
         Integer totalColaboradores = colaboradorRepository.totalColaboradores();
 
-        Assertions.assertThat(totalColaboradores).isEqualTo(1);
+        assertThat(totalColaboradores).isEqualTo(1);
     }
 
 
