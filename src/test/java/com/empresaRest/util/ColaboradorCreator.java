@@ -16,6 +16,17 @@ public class ColaboradorCreator {
                 .build();
     }
 
+    public static Colaborador createColaboradorWithSetor() {
+        return Colaborador.builder()
+                .cpf("692.342.920-06")
+                .email("email@gmail.com")
+                .idade(30)
+                .nome("Rodrigo")
+                .setor(createSetor())
+                .telefone("111111111")
+                .build();
+    }
+
     public static Colaborador createColaboradorValid() {
         return Colaborador.builder()
                 .id(1)

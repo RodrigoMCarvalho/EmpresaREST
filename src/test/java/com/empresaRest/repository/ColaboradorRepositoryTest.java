@@ -43,12 +43,42 @@ public class ColaboradorRepositoryTest {
         Setor setor = setorRepository.save(SetorCreator.createSetor());
         colaborador.setSetor(setor);
         Colaborador colaboradorSalvo = colaboradorRepository.save(colaborador);
-
         colaboradorRepository.delete(colaboradorSalvo);
-
         Optional<Colaborador> colaboradorOptional = colaboradorRepository.findById(colaboradorSalvo.getId());
 
         Assertions.assertThat(colaboradorOptional).isEmpty();
     }
+
+
+    @Test
+    public void deveRetornarListColaboraresByCpf() {
+        Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
+        Setor setor = setorRepository.save(SetorCreator.createSetor());
+        colaborador.setSetor(setor);
+        colaboradorRepository.save(colaborador);
+        Colaborador colaboradorByCpf = colaboradorRepository.findByCpf("692.342.920-06");
+
+        Assertions.assertThat(colaboradorByCpf.getId()).isEqualTo(colaborador.getId());
+    }
+
+    @Test
+    public void deveRetornarTotalColaboradores() {
+        Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
+        Setor setor = setorRepository.save(SetorCreator.createSetor());
+        colaborador.setSetor(setor);
+        colaboradorRepository.save(colaborador);
+        Integer totalColaboradores = colaboradorRepository.totalColaboradores();
+
+        Assertions.assertThat(totalColaboradores).isEqualTo(1);
+    }
+
+
+
+
+
+
+
+
+
 
 }
