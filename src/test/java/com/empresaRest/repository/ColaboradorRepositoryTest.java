@@ -28,7 +28,7 @@ public class ColaboradorRepositoryTest {
     @Test
     public void devePersistirColaboradorComSucesso() {
         Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
-        Setor setor = setorRepository.save(SetorCreator.createSetor());
+        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
         colaborador.setSetor(setor);
         Colaborador colaboradorSalvo = colaboradorRepository.save(colaborador);
 
@@ -40,7 +40,7 @@ public class ColaboradorRepositoryTest {
     @Test
     public void deveExcluirColaboradorComSucesso() {
         Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
-        Setor setor = setorRepository.save(SetorCreator.createSetor());
+        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
         colaborador.setSetor(setor);
         Colaborador colaboradorSalvo = colaboradorRepository.save(colaborador);
         colaboradorRepository.delete(colaboradorSalvo);
@@ -53,7 +53,7 @@ public class ColaboradorRepositoryTest {
     @Test
     public void deveRetornarListColaboraresByCpf() {
         Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
-        Setor setor = setorRepository.save(SetorCreator.createSetor());
+        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
         colaborador.setSetor(setor);
         colaboradorRepository.save(colaborador);
         Colaborador colaboradorByCpf = colaboradorRepository.findByCpf("692.342.920-06");
@@ -64,9 +64,22 @@ public class ColaboradorRepositoryTest {
     @Test
     public void deveRetornarTotalColaboradores() {
         Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
-        Setor setor = setorRepository.save(SetorCreator.createSetor());
+        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
         colaborador.setSetor(setor);
         colaboradorRepository.save(colaborador);
+
+        Integer totalColaboradores = colaboradorRepository.totalColaboradores();
+
+        Assertions.assertThat(totalColaboradores).isEqualTo(1);
+    }
+
+    @Test
+    public void deveRetornarQuantidadeColaboradoresBySetor() {
+        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
+        Colaborador colaborador = ColaboradorCreator.createColaboradorWithSetor();
+        colaborador.setSetor(setor);
+        colaboradorRepository.save(colaborador);
+
         Integer totalColaboradores = colaboradorRepository.totalColaboradores();
 
         Assertions.assertThat(totalColaboradores).isEqualTo(1);

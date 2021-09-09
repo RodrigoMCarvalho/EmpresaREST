@@ -27,6 +27,17 @@ public class ColaboradorCreator {
                 .build();
     }
 
+    public static Colaborador createColaboradorToBeSavedWithSetor() {
+        return Colaborador.builder()
+                .cpf("692.342.920-06")
+                .email("email@gmail.com")
+                .idade(30)
+                .nome("Rodrigo")
+                .setor(createSetorNotId())
+                .telefone("111111111")
+                .build();
+    }
+
     public static Colaborador createColaboradorValid() {
         return Colaborador.builder()
                 .id(1)
@@ -49,5 +60,9 @@ public class ColaboradorCreator {
 
     public static Setor createSetor() {
        return Setor.builder().id(1).descricao("Setor 1").build();
+    }
+
+    public static Setor createSetorNotId() {
+       return Setor.builder().descricao("Setor 1").build();
     }
 }

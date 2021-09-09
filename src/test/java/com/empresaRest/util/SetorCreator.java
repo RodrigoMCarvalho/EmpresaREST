@@ -7,4 +7,8 @@ public class SetorCreator {
     public static Setor createSetor() {
         return Setor.builder().id(1).descricao("Setor 1").build();
     }
+
+    public static Setor createSetorWithoutId() {
+        return Setor.builder().descricao("Setor 1").build();
+    }
 }
