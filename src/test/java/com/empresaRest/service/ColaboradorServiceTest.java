@@ -1,5 +1,6 @@
 package com.empresaRest.service;
 
+import com.empresaRest.exception.HttpMessageNotReadableException;
 import com.empresaRest.model.Colaborador;
 import com.empresaRest.repository.ColaboradorRepository;
 import com.empresaRest.repository.SetorRepository;
@@ -37,7 +38,7 @@ public class ColaboradorServiceTest{
     public void setup() {
         List<Colaborador> colaboradores = ColaboradorCreator.createColaboradorList();
         Colaborador colaborador = ColaboradorCreator.createColaboradorValid();
-        PageImpl<Colaborador> animePage = new PageImpl<>(List.of(ColaboradorCreator.createColaboradorToBeSaved()));
+        PageImpl<Colaborador> colaboradorPage = new PageImpl<>(List.of(ColaboradorCreator.createColaboradorToBeSaved()));
 
         when(colaboradorRepository.save(ArgumentMatchers.any(Colaborador.class))).thenReturn(colaborador);
         when(colaboradorRepository.findById(ArgumentMatchers.anyInt())).thenReturn(Optional.of(colaborador));
@@ -46,7 +47,6 @@ public class ColaboradorServiceTest{
     @Test
     public void deveSalvarColaboradorComSucesso() {
         Colaborador colaborador = ColaboradorCreator.createColaboradorValid();
-
         Colaborador colaboradorSalvo = colaboradorService.save(colaborador);
 
         assertThat(colaboradorSalvo.getId()).isNotNull();
@@ -54,22 +54,38 @@ public class ColaboradorServiceTest{
     }
 
     @Test
-    public void deveSalvarColaboradorComSucesso2() {
+    public void deveAtualizarColaboradorComSucesso() {
         Colaborador colaborador = ColaboradorCreator.createColaboradorValid();
         Colaborador colaboradorSalvo = colaboradorService.save(colaborador);
+        colaboradorSalvo.setNome("Gusvato");
+        Colaborador colaboradorAtualizado = colaboradorService.update(colaboradorSalvo);
 
-        assertThat(colaboradorSalvo.getId()).isNotNull();
-        assertThat(colaboradorSalvo.getNome()).isEqualTo(colaborador.getNome());
+        assertThat(colaboradorSalvo.getId()).isEqualTo(colaboradorAtualizado.getId());
+        assertThat(colaboradorAtualizado.getNome()).isEqualTo("Gusvato");
     }
 
     @Test
     public void deveRetornarColaboradorPorId() {
         Integer idEsperado = ColaboradorCreator.createColaboradorValid().getId();
-
         Colaborador colaboradorSalvo = colaboradorService.findById(idEsperado);
 
         assertThat(colaboradorSalvo).isNotNull();
         assertThat(colaboradorSalvo.getId()).isEqualTo(idEsperado);
     }
+
+    @Test
+    public void deveLancarHttpMessageNotReadableExceptionComMensagem(){
+        try {
+            colaboradorService.save(null);
+        } catch (HttpMessageNotReadableException e) {
+            assertThat(e.getMessage()).isEqualTo("Favor informar os dados do colaborador");
+        }
+    }
+
+    @Test(expected = HttpMessageNotReadableException.class)
+    public void deveLancarHttpMessageNotReadableException() {
+        colaboradorService.save(null);
+    }
+
 
 }
