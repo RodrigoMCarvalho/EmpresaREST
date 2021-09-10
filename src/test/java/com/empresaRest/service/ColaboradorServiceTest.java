@@ -6,7 +6,10 @@ import com.empresaRest.repository.ColaboradorRepository;
 import com.empresaRest.repository.SetorRepository;
 import com.empresaRest.util.ColaboradorCreator;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
@@ -33,6 +36,9 @@ public class ColaboradorServiceTest{
 
     @Mock
     private SetorRepository setorRepository;
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Before
     public void setup() {
@@ -75,11 +81,8 @@ public class ColaboradorServiceTest{
 
     @Test
     public void deveLancarHttpMessageNotReadableExceptionComMensagem(){
-        try {
-            colaboradorService.save(null);
-        } catch (HttpMessageNotReadableException e) {
-            assertThat(e.getMessage()).isEqualTo("Favor informar os dados do colaborador");
-        }
+        exception.expectMessage("Favor informar os dados do colaborador");
+        colaboradorService.save(null);
     }
 
     @Test(expected = HttpMessageNotReadableException.class)

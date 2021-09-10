@@ -50,7 +50,6 @@ public class Colaborador implements Serializable{
 	 * https://stackoverflow.com/questions/49005609/spring-boot-mvc-content-type-application-jsoncharset-utf-8-not-supported*/
 	 //@JsonManagedReference   //irá carregar os colaboradores por esse é o lado Managed
 	@JoinColumn(name = "setor_id")
-	@NotNull
 	@ManyToOne
 	private Setor setor;
 
