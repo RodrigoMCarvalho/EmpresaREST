@@ -1,18 +1,36 @@
 package com.empresaRest.controller;
 
-import com.empresaRest.EmpresaRestApplicationTests;
 import com.empresaRest.model.Colaborador;
 import com.empresaRest.model.Setor;
 import com.empresaRest.util.ColaboradorCreator;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.given;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(locations ="classpath:/application-test.properties")
+@Sql(value = "/clean-database.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+public class ColaboradorControllerTest  {
 
-public class ColaboradorControllerTest  extends EmpresaRestApplicationTests {
+    @LocalServerPort
+    protected int porta;
+
+    @Before
+    public void setUp() throws Exception {
+        RestAssured.port = porta;   //configuracao para o RestAssured funcionar
+    }
 
     @Test
     public void deveBuscaTodos() {
@@ -47,7 +65,7 @@ public class ColaboradorControllerTest  extends EmpresaRestApplicationTests {
             .log().body()
         .and()
             .statusCode(HttpStatus.CREATED.value())
-            .header("Location", Matchers.equalTo("http://localhost:" + super.porta + "/v1/colaboradores/3"))
+            .header("Location", Matchers.equalTo("http://localhost:" + porta + "/v1/colaboradores/3"))
             .body("id", Matchers.equalTo(3),
                     "nome", Matchers.equalTo("Rodrigo"),
                     "cpf", Matchers.equalTo("692.342.920-06"));

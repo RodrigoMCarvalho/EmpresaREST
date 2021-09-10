@@ -1,24 +1,24 @@
 package com.empresaRest.repository;
 
 import com.empresaRest.model.Colaborador;
-import com.empresaRest.model.Setor;
 import com.empresaRest.util.ColaboradorCreator;
 import com.empresaRest.util.SetorCreator;
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
 @RunWith(SpringRunner.class)
+@DataJpaTest
 @TestPropertySource(locations ="classpath:/application-test.properties")
+@Sql(value = "/clean-database.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class ColaboradorRepositoryTest {
 
     @Autowired
@@ -30,8 +30,7 @@ public class ColaboradorRepositoryTest {
     @Test
     public void devePersistirColaboradorComSucesso() {
         Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
-        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
-        colaborador.setSetor(setor);
+        colaborador.setSetor(SetorCreator.createSetor());
         Colaborador colaboradorSalvo = colaboradorRepository.save(colaborador);
 
         assertThat(colaboradorSalvo).isNotNull();
@@ -41,50 +40,32 @@ public class ColaboradorRepositoryTest {
 
     @Test
     public void deveExcluirColaboradorComSucesso() {
-        Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
-        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
-        colaborador.setSetor(setor);
-        Colaborador colaboradorSalvo = colaboradorRepository.save(colaborador);
-        colaboradorRepository.delete(colaboradorSalvo);
-        Optional<Colaborador> colaboradorOptional = colaboradorRepository.findById(colaboradorSalvo.getId());
+        Optional<Colaborador> colaboradorASerExcluido = colaboradorRepository.findById(1);
+        colaboradorASerExcluido.ifPresent(col -> colaboradorRepository.delete(col));
+        Optional<Colaborador> colaborador = colaboradorRepository.findById(1);
 
-        assertThat(colaboradorOptional).isEmpty();
+        assertThat(colaborador).isEmpty();
     }
-
 
     @Test
     public void deveRetornarListColaboraresByCpf() {
-        Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
-        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
-        colaborador.setSetor(setor);
-        colaboradorRepository.save(colaborador);
-        Colaborador colaboradorByCpf = colaboradorRepository.findByCpf("692.342.920-06");
+        Colaborador colaboradorByCpf = colaboradorRepository.findByCpf("942.655.830-67");
 
-        assertThat(colaboradorByCpf.getId()).isEqualTo(colaborador.getId());
+        assertThat(colaboradorByCpf).isNotNull();
     }
 
     @Test
     public void deveRetornarTotalColaboradores() {
-        Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
-        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
-        colaborador.setSetor(setor);
-        colaboradorRepository.save(colaborador);
-
         Integer totalColaboradores = colaboradorRepository.totalColaboradores();
 
-        assertThat(totalColaboradores).isEqualTo(1);
+        assertThat(totalColaboradores).isEqualTo(2);
     }
 
     @Test
     public void deveRetornarQuantidadeColaboradoresBySetor() {
-        Setor setor = setorRepository.save(SetorCreator.createSetorWithoutId());
-        Colaborador colaborador = ColaboradorCreator.createColaboradorWithSetor();
-        colaborador.setSetor(setor);
-        colaboradorRepository.save(colaborador);
+        Integer totalColaboradores = colaboradorRepository.quantidadeColaboradoresBySetor(1);
 
-        Integer totalColaboradores = colaboradorRepository.totalColaboradores();
-
-        assertThat(totalColaboradores).isEqualTo(1);
+        assertThat(totalColaboradores).isEqualTo(2);
     }
 
 
