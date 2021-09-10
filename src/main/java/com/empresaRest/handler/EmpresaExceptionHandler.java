@@ -21,19 +21,19 @@ import com.empresaRest.validation.ValidationErrorDetails;
 @ControllerAdvice
 public class EmpresaExceptionHandler {
 
-	@ExceptionHandler(ConstraintViolationException.class)
-	public ResponseEntity<?> errorCPFDuplicado(ConstraintViolationException e) {
-		String fieldErrors = "CPF informado já está cadastrado na empresa.";
-		ValidationErrorDetails veDetails = ValidationErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
-				.title("Erros de validações.")
-				.status(HttpStatus.BAD_REQUEST.value())
-				.detail("Erros de validações.")
-				.developerMessage(e.getClass()
-				.getName()).field(fieldErrors)
-				.fieldMessage(fieldErrors)
-				.build();
-		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
-	}
+//	@ExceptionHandler(ConstraintViolationException.class)
+//	public ResponseEntity<?> errorCPFDuplicado(ConstraintViolationException e) {
+//		String fieldErrors = "CPF informado já está cadastrado na empresa.";
+//		ValidationErrorDetails veDetails = ValidationErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
+//				.title("Erros de validações.")
+//				.status(HttpStatus.BAD_REQUEST.value())
+//				.detail("Erros de validações.")
+//				.developerMessage(e.getClass()
+//				.getName()).field(fieldErrors)
+//				.fieldMessage(fieldErrors)
+//				.build();
+//		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
+//	}
 	
 	@ExceptionHandler(LimitAgeException.class)
 	public ResponseEntity<?> LimitAge(LimitAgeException e) {

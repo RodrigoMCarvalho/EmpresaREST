@@ -1,33 +1,18 @@
 package com.empresaRest.controller;
 
+import com.empresaRest.EmpresaRestApplicationTests;
 import com.empresaRest.model.Colaborador;
+import com.empresaRest.model.Setor;
 import com.empresaRest.util.ColaboradorCreator;
-import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static io.restassured.RestAssured.given;
 
-@TestPropertySource(locations ="classpath:/application-test.properties")
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ColaboradorControllerTest  {
 
-    @LocalServerPort
-    private int port;
-
-    @Before
-    public void setUp() throws Exception {
-        RestAssured.port = port;
-    }
+public class ColaboradorControllerTest  extends EmpresaRestApplicationTests {
 
     @Test
     public void deveBuscaTodos() {
@@ -45,7 +30,9 @@ public class ColaboradorControllerTest  {
 
     @Test
     public void deveSalvarColaborador() {
+        Setor setor = ColaboradorCreator.createSetor();
         Colaborador colaborador = ColaboradorCreator.createColaboradorToBeSaved();
+        colaborador.setSetor(setor);
 
         given()
             .request()
@@ -60,8 +47,8 @@ public class ColaboradorControllerTest  {
             .log().body()
         .and()
             .statusCode(HttpStatus.CREATED.value())
-            .header("Location", Matchers.equalTo("http://localhost:" + port + "/v1/colaboradores/1"))
-            .body("id", Matchers.equalTo(1),
+            .header("Location", Matchers.equalTo("http://localhost:" + super.porta + "/v1/colaboradores/3"))
+            .body("id", Matchers.equalTo(3),
                     "nome", Matchers.equalTo("Rodrigo"),
                     "cpf", Matchers.equalTo("692.342.920-06"));
     }
