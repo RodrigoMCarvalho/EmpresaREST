@@ -1,9 +1,14 @@
 package com.empresaRest.service;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.empresaRest.exception.CpfException;
+import com.empresaRest.model.Setor;
+import com.empresaRest.utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,13 +42,16 @@ public class ColaboradorService {
 
 	@Transactional
 	public Colaborador save(Colaborador colaborador) {
-		if (colaborador == null) {
+		if (Objects.isNull(colaborador)) {
 			throw new HttpMessageNotReadableException("Favor informar os dados do colaborador");
 		}
-		if (verificaIdadeMaiorDeSessentaECinco(colaborador)) {
+		if(verificaCpfCadastrado(colaborador.getCpf())) {
+			throw new CpfException("CPF informado já consta cadastrado na empresa");
+		}
+		if (verificaIdadeMaiorDe65(colaborador)) {
 			throw new LimitAgeException("O limite de colaboradores acima de 65 anos foi atingido na empresa.");
 		}
-		if (verificaIdadeMenorDeDezoito(colaborador)) {
+		if (verificaIdadeMenorDe18(colaborador)) {
 			throw new LimitAgeException("O limite de colaboradores abaixo de 18 anos foi atingido no setor.");
 		}
 		return colaboradorRepository.save(colaborador);
@@ -84,36 +92,35 @@ public class ColaboradorService {
 		colaboradorRepository.deleteById(id);
 	}
 
-	private boolean verificaIdadeMaiorDeSessentaECinco(Colaborador colaborador) {
-		if (colaborador.getIdade() > MAXIMA_IDADE_PERMITIDA) {
-			List<Colaborador> colaboradores = colaboradorRepository.findAll();
+	private boolean verificaCpfCadastrado(String cpf) {
+		return colaboradorRepository.findByCpf(cpf).isPresent();
+	}
 
-			long cont = colaboradores.stream()
-				.filter( col -> null != col.getIdade() && col.getIdade() > MAXIMA_IDADE_PERMITIDA)
-				.count();
-			cont += 1;
-			
-			int maximoPermitido = (colaboradores.size() * VINTE_PORCENTO) / CEM_PORCENTO;
-			if (cont > maximoPermitido) {
-				return true;
+	private boolean verificaIdadeMaiorDe65(Colaborador colaborador) {
+		if (Objects.nonNull(colaborador.getIdade()) && colaborador.getIdade() > MAXIMA_IDADE_PERMITIDA) {
+			Setor setor = setorRepository.findById(colaborador.getSetor().getId()).get();
+
+			int totalColaboradoresDoSetor = setor.getColaboradores().size();
+			long acimaDaIdadePermitida = setor.getColaboradores().stream().filter(col -> col.getIdade() > MAXIMA_IDADE_PERMITIDA).count();
+
+			if (totalColaboradoresDoSetor > 0) {
+				BigDecimal percentualComMais65 = Utils.calcularPorcentual(BigDecimal.valueOf(totalColaboradoresDoSetor), BigDecimal.valueOf(acimaDaIdadePermitida));
+				if (percentualComMais65.compareTo(BigDecimal.valueOf(VINTE_PORCENTO)) > 0 ) return true;
 			}
 		}
 		return false;
 	}
 
-	private boolean verificaIdadeMenorDeDezoito(Colaborador colaborador) {
-		if (null != colaborador.getIdade() && colaborador.getIdade() < MINIMA_IDADE_SETOR) {
-			List<Colaborador> colaboradoresPorSetor = colaboradorRepository
-					.findColaboradoresBySetor(colaborador.getSetor().getId());
+	private boolean verificaIdadeMenorDe18(Colaborador colaborador) {
+		if (Objects.nonNull(colaborador.getIdade()) && colaborador.getIdade() < MINIMA_IDADE_SETOR) {
+			Setor setor = setorRepository.findById(colaborador.getSetor().getId()).get();
 
-			long cont = colaboradoresPorSetor.stream()
-				.filter(col -> null != col.getIdade() && col.getIdade() < MINIMA_IDADE_SETOR)
-				.count();
-			cont += 1;
+			int totalColaboradoresDoSetor = setor.getColaboradores().size();
+			long abaixoDaIdadePermitida = setor.getColaboradores().stream().filter(col -> col.getIdade() < MINIMA_IDADE_SETOR).count();
 
-			Integer maximoPermitido = (colaboradoresPorSetor.size() * VINTE_PORCENTO) / CEM_PORCENTO;
-			if (cont > maximoPermitido) {
-				return true;
+			if (totalColaboradoresDoSetor > 0) {
+				BigDecimal percentualComMenosDe18 = Utils.calcularPorcentual(BigDecimal.valueOf(totalColaboradoresDoSetor), BigDecimal.valueOf(abaixoDaIdadePermitida));
+				if (percentualComMenosDe18.compareTo(BigDecimal.valueOf(VINTE_PORCENTO)) > 0 ) return true;
 			}
 		}
 		return false;

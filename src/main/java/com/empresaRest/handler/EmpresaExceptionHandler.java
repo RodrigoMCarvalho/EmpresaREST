@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.empresaRest.exception.CpfException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,30 +22,28 @@ import com.empresaRest.validation.ValidationErrorDetails;
 @ControllerAdvice
 public class EmpresaExceptionHandler {
 
-//	@ExceptionHandler(ConstraintViolationException.class)
-//	public ResponseEntity<?> errorCPFDuplicado(ConstraintViolationException e) {
-//		String fieldErrors = "CPF informado já está cadastrado na empresa.";
-//		ValidationErrorDetails veDetails = ValidationErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
-//				.title("Erros de validações.")
-//				.status(HttpStatus.BAD_REQUEST.value())
-//				.detail("Erros de validações.")
-//				.developerMessage(e.getClass()
-//				.getName()).field(fieldErrors)
-//				.fieldMessage(fieldErrors)
-//				.build();
-//		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
-//	}
-	
-	@ExceptionHandler(LimitAgeException.class)
-	public ResponseEntity<?> LimitAge(LimitAgeException e) {
-		String fieldErrors = "Lmite de idade para o setor ultrapassada.";
+	@ExceptionHandler(CpfException.class)
+	public ResponseEntity<?> errorCPFDuplicado(ConstraintViolationException e) {
 		ValidationErrorDetails veDetails = ValidationErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
 				.title("Erros de validações.")
 				.status(HttpStatus.BAD_REQUEST.value())
 				.detail("Erros de validações.")
 				.developerMessage(e.getClass()
-				.getName()).field(fieldErrors)
-				.fieldMessage(fieldErrors)
+				.getName()).field(e.getLocalizedMessage())
+				.fieldMessage(e.getMessage())
+				.build();
+		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(LimitAgeException.class)
+	public ResponseEntity<?> LimitAge(LimitAgeException e) {
+		ValidationErrorDetails veDetails = ValidationErrorDetails.Builder.newBuilder().timestamp(LocalDate.now())
+				.title("Erros de validações.")
+				.status(HttpStatus.BAD_REQUEST.value())
+				.detail("Erros de validações.")
+				.developerMessage(e.getClass()
+				.getName()).field(e.getLocalizedMessage())
+				.fieldMessage(e.getMessage())
 				.build();
 		return new ResponseEntity<>(veDetails, HttpStatus.BAD_REQUEST);
 	}

@@ -49,9 +49,8 @@ public class ColaboradorRepositoryTest {
 
     @Test
     public void deveRetornarListColaboraresByCpf() {
-        Colaborador colaboradorByCpf = colaboradorRepository.findByCpf("942.655.830-67");
-
-        assertThat(colaboradorByCpf).isNotNull();
+        Optional<Colaborador> colaboradorByCpf = colaboradorRepository.findByCpf("942.655.830-67");
+        colaboradorByCpf.ifPresent(colaborador -> assertThat(colaborador).isNotNull());
     }
 
     @Test

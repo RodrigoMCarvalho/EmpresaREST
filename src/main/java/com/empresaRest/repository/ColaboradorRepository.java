@@ -14,7 +14,7 @@ import com.empresaRest.model.Setor;
 @Repository
 public interface ColaboradorRepository extends JpaRepository<Colaborador, Integer>{
 	
-	public Colaborador findByCpf(String cpf);
+	public Optional<Colaborador> findByCpf(String cpf);
 	public Optional<Colaborador> findById(Integer id);
 	
 	@Query("SELECT COUNT(*) FROM Colaborador c")

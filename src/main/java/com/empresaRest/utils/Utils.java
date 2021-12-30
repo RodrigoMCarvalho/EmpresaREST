@@ -9,8 +9,7 @@ import javax.swing.text.MaskFormatter;
 public class Utils {
 	
 	public static BigDecimal calcularPorcentual(BigDecimal total, BigDecimal valor) {
-		return valor.divide(total, 2, RoundingMode.HALF_UP)
-					.multiply(new BigDecimal(100));
+		return valor.divide(total, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(100));
 	}
 	
 	public static String formatarCPF(String cpf) throws ParseException {
