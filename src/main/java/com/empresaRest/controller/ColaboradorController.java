@@ -93,11 +93,14 @@ public class ColaboradorController {
 		return ResponseEntity.ok().body(colaboradoresBySetor);
 	}
  
-	@PutMapping
+	@PutMapping("/{id}")
 	@Operation(summary = "Atualiza um colaborador")
 	@ApiResponse(responseCode = "200", description = "Operação realizada com sucesso.")
 	@CrossOrigin
-	public ResponseEntity<Colaborador> atualizar(@Valid @RequestBody Colaborador colaborador) {
+	public ResponseEntity<Colaborador> atualizar(@PathVariable Integer id,
+												 @RequestBody @Valid Colaborador colaborador) {
+		Colaborador colaboradorSalvo = colaboradorService.findById(id);
+		colaborador.setId(colaboradorSalvo.getId());
 		Colaborador col = colaboradorService.update(colaborador);
 		return ResponseEntity.ok().body(col);
 	}
